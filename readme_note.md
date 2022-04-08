@@ -41,6 +41,20 @@ tsconfig.json
 
 npm run start
 
+hot reload 재시작 없이 적용 위함
+  설치, config 생성, main.js 수정, script 명령어 교체
+https://docs.nestjs.com/recipes/hot-reload
+npm i --save-dev webpack-node-externals run-script-webpack-plugin webpack
+
+서비스는 일종의 트랜잭션 단위
+  재사용 목적
+  분리된 부분만 테스트 용이, req res 직접제어 경우 테스트시 mock 절차가 더 필요
+controller : 요청과 응답 담당
+svc : 비즈니스로직
+
+npm i --save @nestjs/config
+
+
 
 
 
