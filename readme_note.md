@@ -54,9 +54,23 @@ svc : 비즈니스로직
 
 npm i --save @nestjs/config
 
+log 찍지 않아도 경우 별로 자동로그 방법은?
+
+모니터링만 이 목적이라면 datadog, 센트리 같은 외부로 보내기
+
+npm i cookie-parser export-session passport
+
+//ctrl-svc-repository-entity
+
+네스트는 모듈중심
+
+nest g mo users
+
 
 
 
 
 # 참고
 bcrypt로 지갑 구현 해보기
+react nest 라이브러리?
+code-deploy 사용검토
