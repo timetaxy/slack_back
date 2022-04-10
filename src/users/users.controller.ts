@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { User } from 'src/common/dto/decorators/user.decorator';
+import { User } from 'src/common/decorators/user.decorator';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
 
