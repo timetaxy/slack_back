@@ -63,12 +63,25 @@ npm i cookie-parser export-session passport
 //ctrl-svc-repository-entity
 
 네스트는 모듈중심
+싱글코어 중심 스케일링 서비스 인프라를 추천
 
 nest g mo users
+nest g mo workspaces 
+nest g mo dms
+nest g s users
+nest g co users
+nest g s dms
+nest g co dms
+nest g co channels
+nest g s channels
+nest g co workspaces
+nest g s workspaces
 
+네이밍은 닷으로
+export default 지양, 인터페이스보다 클래스, 클래스는 자바스크립트로 남음, 인터페이스는 타입스크립트에서만 잠시 있음
 
-
-
+api 고치기 어려움
+자바스크립트에서 typeof null === 'null' 이어야 했다
 
 # 참고
 bcrypt로 지갑 구현 해보기

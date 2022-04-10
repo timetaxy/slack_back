@@ -1,12 +1,24 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('api/workspaces')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  getMyWorkspaces() {}
+
+  @Post()
+  createWorkspaces() {}
+
+  @Get(':url/members')
+  getAllMembersFromWorkspace() {}
+
+  @Post(':url/members')
+  inviteMembersToWorkspace() {}
+
+  @Delete(':url/members/:id')
+  kickMemberFromWorkspace() {}
+
+  @Get(':url/members/:id')
+  getAllMemberInfoInWorkspace() {}
 }
