@@ -90,8 +90,56 @@ npm install --save @nestjs/swagger swagger-ui-express
 
 res.locals.jwt 익스프레스에서 공유 변수
 
+인터셉터 > 미들웨어에 적합
+//리턴 형태 컨트롤 등
+
+스칼라형 코드
+https://rxjs.dev/api/operators/map
+
+에러캐칭은 인터셉터 보다 인셉션 필터로 하길 추천
+
+참고 이미 만들어진 테이블 sequelize 에서는 sequelize-auto
+
+typeorm-model-generator
+db > code
+
+npm i typeorm-model-generator -D --save
+npx typeorm-mode-generator -h localhost -d slack_back -u scott -x tiger -e mysql
+src 밖에 생성된 output.entities src 안으로, ormconfig.json tsconfig.json 은 위치 유지
+
+엔티티 파일에서 name:실제 db 컬럼명, 실제 테이블과 다를 경우 매칭이 유리
+1:n 에서 @JoinColumn은 n에 속하는 테이블에만 @JoinColumn([{name:'fk정보', referencedColumnName:'상대텡블컬럼명'}])
+m:n은 1:m, 1:n 으로 분리가능
+
+가상의 컬럼 구분 앞 대문자 등으로
+
+manyToMany 는 @JoinTable 임, 두 테이블 중 어디에나 하나만 넣으면 됨
+
+자동 날짜 넣어주는 컬럼
+@CreateDataColumn()
+@UpdateDataColumn()
+@DeleteDataColumn() - 복원대비 소프트딜리트
+한 번에 종속관계 테이블 수정시 cascade:['upate']
+
+테이블 리뷰, create table ddl 을 붙여 넣음
+erdcloud.com
+
+entity를 바로 dto로 쓸 수 있고, 그럴 경우 swagger 데코레이터 entity에 기입
+
+swagger
+https://docs.nestjs.com/openapi/introduction
+@ApiProperty
+@ApiOperation
+@ApiTags
+@ApiResponse
+
+nest g resource
+
+npm install --save @nestjs/typeorm typeorm@0.2 mysql2
+
 
 # 참고
 bcrypt로 지갑 구현 해보기
 react nest 라이브러리?
 code-deploy 사용검토
+nest-js amdin

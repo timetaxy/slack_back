@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { query } from 'express';
 
+@ApiTags('DM')
 @Controller('api/workspaces/:workspace/dms')
 export class DmsController {
   @ApiQuery({
