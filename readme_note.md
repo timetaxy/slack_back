@@ -77,11 +77,19 @@ nest g s channels
 nest g co workspaces
 nest g s workspaces
 
+nest g co channels
+
 네이밍은 닷으로
 export default 지양, 인터페이스보다 클래스, 클래스는 자바스크립트로 남음, 인터페이스는 타입스크립트에서만 잠시 있음
 
 api 고치기 어려움
 자바스크립트에서 typeof null === 'null' 이어야 했다
+
+익스프레스는 api문서 자동화 부재
+npm install --save @nestjs/swagger swagger-ui-express
+
+res.locals.jwt 익스프레스에서 공유 변수
+
 
 # 참고
 bcrypt로 지갑 구현 해보기
