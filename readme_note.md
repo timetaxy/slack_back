@@ -312,6 +312,8 @@ express 에만 있는 기능 쓸 경우
 	npm i cross-env
 	NODE_ENV=productioin > cross-env NODE_ENV=production
 
+빌드시 메모리 1g 초과하기 쉽다
+
 운영환경 실행
 "start:prod": "NODE_ENV=production pm2 start dist/src/main.js",
 
