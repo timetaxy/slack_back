@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { ChannelsModule } from './channels/channels.module';
 import { DmsModule } from './dms/dms.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 const getEnv = async () => {
   //외부서버에서 키요청도 가능
   return {
@@ -20,6 +21,33 @@ const getEnv = async () => {
     WorkspacesModule,
     ChannelsModule,
     DmsModule,
+    //설정을 외부에서 가져올 때는 비동기적 로딩
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        return {
+          type: 'mysql',
+          host: 'localhost',
+          port: 3306,
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB_DATABASE'),
+          entities: [],
+        };
+      },
+    }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: process.env.DB_USERNAME,
+    //   password: process.env.DB_PASSWORD,
+    //   database: process.env.DB_DATABASE,
+    //   // entities: ['entities/*.js'],
+    //   // entities: [ChannelChats],
+    //   autoLoadEntities: true,
+    //   synchronize: false,
+    // }),
   ],
   controllers: [AppController],
   providers: [AppService, ConfigService],

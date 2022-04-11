@@ -60,6 +60,8 @@ log 찍지 않아도 경우 별로 자동로그 방법은?
 
 npm i cookie-parser export-session passport
 
+ConfigModule.forRoot에 isGlobal: true를 하면 전역 설정이 됨
+
 //ctrl-svc-repository-entity
 
 네스트는 모듈중심
@@ -104,7 +106,7 @@ typeorm-model-generator
 db > code
 
 npm i typeorm-model-generator -D --save
-npx typeorm-mode-generator -h localhost -d slack_back -u scott -x tiger -e mysql
+npx typeorm-model-generator -h localhost -d slack_back -u scott -x tiger -e mysql
 src 밖에 생성된 output.entities src 안으로, ormconfig.json tsconfig.json 은 위치 유지
 
 엔티티 파일에서 name:실제 db 컬럼명, 실제 테이블과 다를 경우 매칭이 유리
@@ -136,6 +138,36 @@ https://docs.nestjs.com/openapi/introduction
 nest g resource
 
 npm install --save @nestjs/typeorm typeorm@0.2 mysql2
+
+autoLoadEntities는 typeormmodule forFeature 
+
+app.module 에서 entities 불러오는 3가지 방법
+entities: ['entities/*.js'],
+entities: [ChannelChats],
+autoLoadEntities: true,
+
+ormconfig.ts > package.json 같은 레벨에 위치할 것
+	핫리로드 keepconnectionalive 옵션 true
+	logging true
+
+typeorm 로우쿼리
+	getManager 임포트
+
+db관련 커맨드 cli로 실행시 (sync true 하지 않고)
+npm run schema:sync
+	 "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
+
+더미 데이터 넣기
+	typeorm seeding - faker 내장되어 있음, faker
+	npm i typeorm-seeding
+	npm i -D ts-node
+	npm run seed:run
+		"seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+
+마이그레이션
+	npx typeorm migration:create -n categoryToType
+	npx typeorm migration:generate -n categoryToType
+	"db:migrate:revert": "npm run typeorm migration:revert",
 
 
 # 참고
