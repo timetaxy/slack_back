@@ -287,10 +287,17 @@ validation pipe 에서 transform:true 숫자 자동변환 가능
 npm i class-transformer
 	class-validator 와 설치시 같이 할 것
 
+매개변수가 많아지면 객체처리 {}, 순서 무관 하도록
+
+웹소켓
+https://docs.nestjs.com/websockets/gateways#gateways
+npm i --save @nestjs/websockets @nestjs/platform-socket.io
 
 
-# 개선시 참고할 기능들
-조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype
+
+
+# 본 프로젝트 참고할 주요 기능
+조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype, 인터셉터 exception filter
 m:n 관계
 레포지토리 패턴은 유지할 것.
 
