@@ -293,12 +293,21 @@ npm i class-transformer
 https://docs.nestjs.com/websockets/gateways#gateways
 npm i --save @nestjs/websockets @nestjs/platform-socket.io
 
+import event module 대신 provider event를 하게 될 경우, 매번 new 소켓경우 위험
+	event를 익스포트 하기
+		providers, exports > 다른 모듈 import: event module
+
+업로드 multer
+https://docs.nestjs.com/techniques/file-upload#file-upload
+	컨트롤러 데코레이터
+	@UseInterceptors(FileInterceptor)
 
 
 
 # 본 프로젝트 참고할 주요 기능
 조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype, 인터셉터 exception filter
 m:n 관계
+ws gateway
 레포지토리 패턴은 유지할 것.
 
 # 참고
