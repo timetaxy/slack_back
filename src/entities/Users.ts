@@ -30,6 +30,7 @@ export class Users {
   @Column('varchar', { name: 'nickname', length: 30 })
   nickname: string;
 
+  //select: false 시 포함되지 않음
   @Column('varchar', { name: 'password', length: 100, select: false })
   password: string;
 

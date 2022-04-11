@@ -170,20 +170,82 @@ npm run schema:sync
 	"db:migrate:revert": "npm run typeorm migration:revert",
 
 entities 로 부터 dto 추출
+https://docs.nestjs.com/openapi/mapped-types#pick
 	partial, PickType, omittype, 혼합도 가능
 	or
 	export class UpdateCatDto extends PartialType(CreateCatDto) {}
 
 npm i bcrypt --save
 
+밸리데이션 방법
+1.서비스에서 throw Error, 인터셉터
 async 에서 throw nes Error 은 node 가 죽지 않음
 로그인시 그럴 경우 return undefined 200 ok 가 되므로 주의
-	http 400 에러 throw 해도 마찬가지
+http 400 에러 throw 해도 마찬가지
 	controller await => svc 연결
-	
+	exception filter 인터셉터 적용
+	throw new BadRequestException('') => 400
+	throw new Unauthorized('') => 401
+
+2.클래스 밸리데이터 (throw 자동)
+	https://docs.nestjs.com/pipes#class-validator
+	npm i --save class-validator class-transformer
+	dto 데코레이터 추가, main.ts 추가 pipe 추가 = express-validator, joi 같은 기능
+	메시지 수정 필요시, http-exception.filter 에 조건으로 포매팅 설정 함
+
+선후 관계 참고
+https://docs.nestjs.com/faq/request-lifecycle
+https://slides.com/yariv-gilad/nest-js-request-lifecycle/fullscreen#/1
+middleware, guards,interceptors, pipes, controller, interceptors
+	미들웨어 최상위 에러시 하위로 전행 x
+	미들웨어 다음은 guards가 실행
+	interceptor는 전과 후 실행
+
+guard 인증
+현재 소스는 세션기반 인증
+guard, 401 403 err, 가장먼저 실행, 권한 검증
+npm i @nestjs/passport --save
+npm i passport passport-local --save
+auth.guard(implements CanActivate), strategy, serializer, service 코드 구현
+컨트롤러 @UseGuard(Custom) 데코레이터
+auth 모듈생성 (서비스는 해당 모듈에 묶어서)
+module에 session:true 세션기반, jwt 토큰기반은 session:false
+@Injectable은 모두 provider 로 입력
+	특정 정보 빼고 리턴 팁
+			{pw, ...etc}=user;
+				delete user.pw
+local-auth.guard = 노드 passport authtification 같은 역할
+strategy에서 done 되면 req 처리로 넘어가게 됨
+db는 findoneorfail 매서드를 사용, then과 catch 사용할 것
+실행순서 guard-strategy-serializer ( 요청하면 deserializer 함수)
+
+select false 해당하는 정보를 불러올 때는
+const user = await this.usersRepository.findOne({
+      where: { email },
+      select: ['id', 'email', 'password'],
+    });
+
+mocking 쉽게 하기위해
+	ctrl > svc > repo > entity 각 레벨 1단계만 할 것
+
+연관 테이블 정보 가져오기
+ {
+    select: ['id', 'email', 'nickname'],
+    relations: ['Workspaces'],
+        },
+
+연관정보 join 으로도 읽기는 가능하나, 차라리 쿼리빌더가 나음
+
+
+
+
+
+
+
 
 # 참고
 bcrypt로 지갑 구현 해보기
 react nest 라이브러리?
 code-deploy 사용검토
 nest-js amdin
+nest jwt securly

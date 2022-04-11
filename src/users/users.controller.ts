@@ -1,51 +1,67 @@
 import {
   Body,
   Controller,
-  Get,
+  NotFoundException,
   Post,
-  Req,
-  Res,
-  UseInterceptors,
+  UseGuards,
+  Get,
+  Response,
+  ForbiddenException,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/common/decorators/user.decorator';
-import { UndefinedToNullInterceptor } from 'src/common/interceptors/undefinedToNull.interceptor';
+import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
+import { NotLoggedInGuard } from '../auth/not-logged-in.guard';
+import { LoggedInGuard } from '../auth/logged-in.guard';
+import { User } from '../common/decorators/user.decorator';
+import { Users } from '../entities/Users';
 import { JoinRequestDto } from './dto/join.request.dto';
 import { UsersService } from './users.service';
 
-@ApiTags('USER')
-@UseInterceptors(UndefinedToNullInterceptor)
+@ApiTags('USERS')
 @Controller('api/users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
-  @ApiOperation({ summary: '정보조회' })
-  // getUsers(@Req() req) {
-  // return req.user;
+
+  @ApiCookieAuth('connect.sid')
+  @ApiOperation({ summary: '내 정보 가져오기' })
   @Get()
-  getUsers(@User() user) {
-    return user;
-  }
-  @ApiOperation({ summary: '회원가입' })
-  @Post()
-  postUsers(@Body() data: JoinRequestDto) {
-    this.usersService.postUsers(data.email, data.nickname, data.password);
-    return;
+  async getProfile(@User() user: Users) {
+    return user || false;
   }
 
   @ApiOperation({ summary: '로그인' })
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  // logIn(@Req() req) {
-  // return req.user;
-  logIn(@User() user) {
+  async login(@User() user: Users) {
     return user;
   }
 
-  //req,res 안 넣을 수 있다면 코드상 더 좋다, 서비스에서는 더 그렇다
+  @ApiOperation({ summary: '회원가입' })
+  @UseGuards(NotLoggedInGuard)
+  @Post()
+  async join(@Body() data: JoinRequestDto) {
+    const user = this.usersService.findByEmail(data.email);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    const result = await this.usersService.join(
+      data.email,
+      data.nickname,
+      data.password,
+    );
+    if (result) {
+      return 'ok';
+    } else {
+      throw new ForbiddenException();
+    }
+  }
+
+  @ApiCookieAuth('connect.sid')
   @ApiOperation({ summary: '로그아웃' })
+  @UseGuards(LoggedInGuard)
   @Post('logout')
-  logOut(@Req() req, @Res() res) {
-    req.logOut();
+  async logout(@Response() res) {
     res.clearCookie('connect.sid', { httpOnly: true });
-    res.send('ok');
+    return res.send('ok');
   }
 }

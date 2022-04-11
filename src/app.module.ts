@@ -18,6 +18,7 @@ const getEnv = async () => {
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [getEnv] }),
     UsersModule,
+    AuthModule,
     WorkspacesModule,
     ChannelsModule,
     DmsModule,
