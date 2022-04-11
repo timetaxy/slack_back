@@ -302,7 +302,18 @@ https://docs.nestjs.com/techniques/file-upload#file-upload
 	컨트롤러 데코레이터
 	@UseInterceptors(FileInterceptor)
 
+express 에만 있는 기능 쓸 경우
+	main.ts
+	NestFactory.create<NestExpressApplication>(AppModule);
+	nest에는 express, fastify 공통기능만 랩핑되어 있기 때문
+	타입추론을 명시화 한 것
 
+실행시 환경변수 윈도우 경우
+	npm i cross-env
+	NODE_ENV=productioin > cross-env NODE_ENV=production
+
+운영환경 실행
+"start:prod": "NODE_ENV=production pm2 start dist/src/main.js",
 
 # 본 프로젝트 참고할 주요 기능
 조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype, 인터셉터 exception filter
