@@ -236,8 +236,11 @@ mocking 쉽게 하기위해
 
 연관정보 join 으로도 읽기는 가능하나, 차라리 쿼리빌더가 나음
 
-
-
+트랜잭셔널 처리
+https://orkhan.gitbook.io/typeorm/docs/transactions
+ 공식문서는 쿼리러너 추천, 데코레이터패턴 비추 테스트 등 어려움
+ 쿼리러너를 통해 레포를 호출해야 함
+ await queryRunner.manager.getRepository(Users).save({})
 
 
 
