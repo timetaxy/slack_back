@@ -169,6 +169,18 @@ npm run schema:sync
 	npx typeorm migration:generate -n categoryToType
 	"db:migrate:revert": "npm run typeorm migration:revert",
 
+entities 로 부터 dto 추출
+	partial, PickType, omittype, 혼합도 가능
+	or
+	export class UpdateCatDto extends PartialType(CreateCatDto) {}
+
+npm i bcrypt --save
+
+async 에서 throw nes Error 은 node 가 죽지 않음
+로그인시 그럴 경우 return undefined 200 ok 가 되므로 주의
+	http 400 에러 throw 해도 마찬가지
+	controller await => svc 연결
+	
 
 # 참고
 bcrypt로 지갑 구현 해보기
