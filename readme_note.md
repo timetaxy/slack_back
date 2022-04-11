@@ -242,9 +242,57 @@ https://orkhan.gitbook.io/typeorm/docs/transactions
  쿼리러너를 통해 레포를 호출해야 함
  await queryRunner.manager.getRepository(Users).save({})
 
+di 생성자 않는 예외 경우
+	상속에서 di가 정상 동작하지 않을 경우
+
+mysql offset, limit > typeorm skip take
+
+query param 값 숫자로 전환
+	parseInt(val)
+	+val
+	val.valueOf()
+	@Param('id',ParseIntPipe) id:number
+		new ParseArrayPipe({items:Number,separator:','}) <- 옵션 들어가기 때문 new
+
+먼저 있는 db로부터 생성시는 연관관계는 기본형에서 코딩시 추가해 가도록, 테이블 생성과 동시 진행시는 참조관계 명시위해 미리 필요
+
+m:n 은 1:n 1:m 으로 분리
+user > workspaceMembers > workspace
+
+getMany() : 객체로 결과리턴
+
+결과 같음
+      // join: {
+      //   alias: 'workspace',
+      //   innerJoinAndSelect: {
+      //     channels: 'workspace.Channels',
+      //   },
+      // },
+
+      relations: ['Channels'],
+
+			this.wRepository.createQueryBuilder('w').innerJoinAndSelect('w.Channels','channes').getOne()
+
+innerJoin != innerJoinAndSelect
+	타입orm 에서는 joinAndSelect 해야 조인대상 테이블 데이터도 가져옴
+	쿼리 중 조건이 아니라 최종 추출 결과물에 innerjoinAndSelect
+타입orm 쿼리빌더 :id, {id} 는 인젝션 방어
+
+참고
+이너조인 공통데이터에 대해
+레프트조인 빈데이터는 널처리후 조인
+아웃터조인 데이터존재유무 무관
+
+validation pipe 에서 transform:true 숫자 자동변환 가능
+npm i class-transformer
+	class-validator 와 설치시 같이 할 것
 
 
 
+# 개선시 참고할 기능들
+조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype
+m:n 관계
+레포지토리 패턴은 유지할 것.
 
 # 참고
 bcrypt로 지갑 구현 해보기
