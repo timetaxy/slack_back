@@ -317,6 +317,26 @@ express 에만 있는 기능 쓸 경우
 운영환경 실행
 "start:prod": "NODE_ENV=production pm2 start dist/src/main.js",
 
+테스트코드 커버리지 100 가깝게 해야함, 심각한 보다 사소한 버그가 타겟
+	각파일별로 테스트하는 파일 페어
+	테스트할 파일의 클래스 생성자에 주입된 객체를 목킹해야 함
+	미리 테스트 만들기는 it.todo('')
+	beforeEach에 목킹
+	providers:[{provide:UsersService, useClass:UsersService}] =>
+		일반적으로 쓰는 것은 축약형 providers:[{usersService}]
+	목킹할 때는 다르므로 축약x
+		{provide:getRepositoryToken(Users), useClass:process.env.NODE_ENV==='production'?UserRepository:MockuserRepository}
+	promise 값 테스트는
+		expect(service.findByEmail('')).resolves.toBe({email:'',id:1});});
+	테스트 필요한 부분
+		결제서비스, 에러가 발생한적 있는 부분
+	유닛, 통합, e2e 테스트
+	e2e 테스트에는 테스트용db 생성을 추천 NODE_ENV='test' 를 생성할 것
+	테스트 중 경로 인식 오류
+		'src/events...' nest 에서 유효한 절대 경로
+		모듈맵퍼 사용 해결 moduleNameMapper
+	참고 useragent 의 supertest 가 테스트에서는 많이 쓰인다
+
 # 본 프로젝트 참고할 주요 기능
 조인, 트랜잭션, 쿼리빌더, parseIntpipe, picktype, 인터셉터 exception filter
 m:n 관계
